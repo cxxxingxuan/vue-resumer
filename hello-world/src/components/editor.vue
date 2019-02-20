@@ -1,6 +1,7 @@
 <template>
     <div class="editor">
         <div class="item" v-for="(ele,idx) in elements">
+            <!--绑定元素-->
             <div class="list" v-for="(list,index) in ele" >
                 {{State.title[index]}}:
                 <el-input placeholder="请输入内容" :value="list"

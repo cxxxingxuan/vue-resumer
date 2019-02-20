@@ -1,10 +1,11 @@
 <template>
   <div id="app" :class="{previewStatus:previewStatus===true}">
     <Header id="header"  v-on:showPreview="showPreview"/>
-    <div id="container">
-      <Asides id="asides"/>
-      <Preview id="preview"/>
-    </div>
+    <!--<div id="container">-->
+      <!--<Asides id="asides"/>-->
+      <!--<Preview id="preview"/>-->
+      <router-view></router-view>
+    <!--</div>-->
     <el-button type="danger" round class="sign-up-preview" @click="editPreview">退出预览</el-button>
   </div>
 </template>
@@ -33,6 +34,9 @@ export default {
     editPreview () {
       this.previewStatus = false;
     }
+  },
+  created:{
+
   }
 }
 </script>
@@ -77,7 +81,7 @@ body{
   background-color: #ffffff;
 }
 #preview{
-  max-width: 1200px;
+  max-width: 900px;
   border: 1px solid #dcdcdc;
   margin:16px;
   flex: 1;

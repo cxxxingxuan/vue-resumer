@@ -11,9 +11,9 @@
         <div class="entry">
             <h2 class="title">{{titles[current]}}</h2>
             <Editor :class="{show:current===0}" :elements="infomation.profile"
-                    :State="{add : false,path : `profile`,title : {name:'姓名',age:'年龄',status:'学历'}}"/>
+                    :State="{add : false,path : `profile`,title : {name:'姓名',age:'年龄',status:'学历',job:'应聘职位'}}"/>
             <Editor :class='{show:current===1}' :elements="infomation.prize"
-                    :State="{add : true,path : `prize`,title : {prizeName:'获奖名称',prizeContent:'获奖内容'}}"/>
+                    :State="{add : true,path : `prize`,title : {prizeName:'获奖名称'}}"/>
             <Editor :class='{show:current===2}' :elements="infomation.workExperience"
                     :State="{add : true,path : `workExperience`,title : {company:'公司',workContent:'工作内容'}}"/>
             <Editor :class='{show:current===3}' :elements="infomation.project"
