@@ -4,8 +4,11 @@
           <div class="logo">
               <img src="../assets/logo.png">
           </div>
-          <router-link to="/signupandregister">请登录</router-link>
-          <router-link to="/home">用户名</router-link>
+          <p>
+              您好
+              <router-link to="/signupandregister">请登录</router-link>
+              <router-link to="/">用户名</router-link>
+          </p>
       </div>
       <div class="infomation">
           <el-button type="danger" round @click="clear">清空</el-button>

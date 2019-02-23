@@ -35,8 +35,13 @@ export default {
       this.previewStatus = false;
     }
   },
-  created:{
-
+  created () {
+    //1.确认是否登录
+    if(localStorage.getItem('stateElement')){
+      let state = localStorage.getItem('state')
+      this.$store.commit('elementChange',{path,state})
+    }
+    //2.如果有，加载
   }
 }
 </script>
@@ -51,6 +56,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin:0;
+  text-align: center;
   height: 100vh;
   display: flex;
   flex-direction: column;

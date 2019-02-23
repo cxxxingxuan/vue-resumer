@@ -8,6 +8,7 @@ import VueRouter from 'vue-router'
 import SignupAnRegister from './components/signupandregister'
 import Home from './components/home'
 
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueRouter);
@@ -49,6 +50,10 @@ const store = new Vuex.Store({
           project: [{projectName: '',projectContent: ''}],
           contact: [{phone: '',QQnumber: '',wechat: ''}]
         }
+    },
+    load (value) {
+        //加载数据
+        state.information = value
     }
   }
 });
@@ -57,8 +62,6 @@ const store = new Vuex.Store({
 
 // 1. 定义 (路由) 组件。
 // 可以从其他文件 import 进来
-// const Foo = { template: '<div>foo</div>' }
-// const Bar = { template: '<div>bar</div>' }
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -67,7 +70,7 @@ const store = new Vuex.Store({
 // 我们晚点再讨论嵌套路由。
 const routes = [
   { path: '/signupandregister', component: SignupAnRegister },
-  { path: '/home', component: Home }
+  { path: '/', component: Home }
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
