@@ -1,7 +1,8 @@
 <template>
     <div class="preview">
         <div class="preview-aside">
-            <div class="portrait"><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1538636410624&di=72517540bcddec3ced1a16fdf17b3f5a&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F060828381f30e9248aec4f0e4f086e061d95f741.jpg">
+            <div class="portrait">
+                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1538636410624&di=72517540bcddec3ced1a16fdf17b3f5a&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F060828381f30e9248aec4f0e4f086e061d95f741.jpg">
             </div>
             <div class="information">
                 <h3>个人信息</h3>
@@ -71,6 +72,24 @@
           information () {
             return this.$store.state.information
           }
+        },
+        created () {
+            // onbeforeunload文档：https://developer.mozilla.org/zh-CN/docs/Web/API/Window/onbeforeunload
+          window.onbeforeunload = () => {
+            let dataString = JSON.stringify(this.information); // JSON 文档: https://developer.mozilla   .org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON
+            window.localStorage.setItem('myInfomation', dataString) // 看文档https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage
+          };
+
+          let oldDataString = window.localStorage.getItem('myInfomation');
+          let oldData = JSON.parse(oldDataString);
+          // this.information = oldData || {
+          //   profile: [{name: '',age: '',status: '',job: '' }],
+          //   prize: [{prizeName: '',prizeContent: ''}],
+          //   workExperience: [{company: '',workContent: ''}],
+          //   project: [{projectName: '',projectContent: ''}],
+          //   contact: [{phone: '',QQnumber: '',wechat: ''}]
+          // }
+          this.$store.commit('load',oldData);
         }
       }
 </script>
@@ -105,7 +124,7 @@
         flex: 1;
         padding: 16px;
         text-align: left;
-            border-radius: 50%;
+        border-radius: 50%;0
         .name-job{
         }
     }

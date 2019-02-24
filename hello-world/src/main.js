@@ -50,10 +50,11 @@ const store = new Vuex.Store({
           project: [{projectName: '',projectContent: ''}],
           contact: [{phone: '',QQnumber: '',wechat: ''}]
         }
+
     },
-    load (value) {
+    load (state,value) {
         //加载数据
-        state.information = value
+        state.information = value;
     }
   }
 });

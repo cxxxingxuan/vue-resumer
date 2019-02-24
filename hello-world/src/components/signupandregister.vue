@@ -15,7 +15,7 @@
                     <p>密码</p>
                     <el-input v-model="password" placeholder="请输入密码" type="password"></el-input>
                 </span>
-                <el-button type="primary" :click="SignUp">登录</el-button>
+                <el-button type="submit" @click="SignUp">登录</el-button>
             </div>
             <div class="register-content" v-if="status === 'register'">
                 <span class="line-content">
@@ -34,7 +34,7 @@
                     <p>邮箱</p>
                     <el-input v-model="email" placeholder="请输入邮箱"></el-input>
                 </span>
-                <el-button type="primary" @click="Register">注册</el-button>
+                <el-button type="submit" @click="Register">注册</el-button>
             </div>
         </div>
     </div>
@@ -72,26 +72,33 @@
                 }else if(!reg.test(this.email)){
                   alert('请输入正确的邮箱')
                 }else{
-                  alert('注册成功');
                   // LeanCloud - 注册
                   // https://leancloud.cn/docs/leanstorage_guide-js.html#注册
                   let user = new AV.User();
+                  let username = this.username;
+                  let password = this.password;
+                  let email = this.email;
+                  let that = this;
                   user.setUsername(username);
                   user.setPassword(password);
                   user.setEmail(email);
                   user.signUp().then(function (loginedUser) {
-                    //第一次登陆创建信息库
-                    // LeanCloud - 当前用户
-                    // https://leancloud.cn/docs/leanstorage_guide-js.html#当前用户
-                    // LeanCloud - 文件
-                    // https://leancloud.cn/docs/leanstorage_guide-js.html#文件
-                    let file = this.$store.state.information;
-                    // LeanCloud - 对象
-                    // https://leancloud.cn/docs/leanstorage_guide-js.html#数据类型
+                    //创建用户数据，并将此时页面的数据覆盖上
+                    console.log('注册成功');
+                    let userInfomation = {
+                      profile: [{name: '',age: '',status: '',job: '' }],
+                      prize: [{prizeName: '',prizeContent: ''}],
+                      workExperience: [{company: '',workContent: ''}],
+                      project: [{projectName: '',projectContent: ''}],
+                      contact: [{phone: '',QQnumber: '',wechat: ''}]
+                    };
+                    loginedUser.set('infomation', userInfomation);
+                    console.log('创建数据成功');
+                    loginedUser.save();
+                    console.log('保存数据成功');
                     //渲染数据
+                    that.$store.commit('load',loginedUser.get('infomation'));
                     //跳转至主页面
-                    let product = new Product();
-                    product.set('infomation', file);
                     let href = window.location.href;
                     let h1 = href.substring(0,href.length-19);
                     window.location.href = h1;
@@ -100,17 +107,18 @@
                   }));
                 }
           },
-          Demo () {
-            let href = window.location.href;
-            let h1 = href.substring(0,href.length-19);
-            window.location.href = h1
-          },
           SignUp () {
             // LeanCloud - 登录
             // https://leancloud.cn/docs/leanstorage_guide-js.html#用户名和密码登录
-            AV.User.logIn(this.username, this.password).then(function (loginedUser) {
+            let username = this.username;
+            let password = this.password;
+            let that = this;
+            AV.User.logIn(username,password).then(function (loginedUser) {
               alert('登录成功');
-              // 登录成功，跳转到商品 list 页面
+              // 登录成功，将简历数据渲染成用户数据
+              console.log(loginedUser.get('infomation'));
+              that.$store.commit('load',loginedUser.get('infomation'));
+              //跳转至主页
               let href = window.location.href;
               let h1 = href.substring(0,href.length-19);
               window.location.href = h1
@@ -121,7 +129,7 @@
         },
         computed : {
           // status () {
-          //   return this.status
+          //
           // }
         }
       }
